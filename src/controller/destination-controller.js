@@ -1,15 +1,46 @@
 import destinationService from "../service/destination-service.js";
+import multer from 'multer';
 
-const createDestination = async (req, res, next) => {
+const storage = multer.memoryStorage();
+const upload = multer({ storage : storage });
+
+//middle ware untuk upload
+const uploadImage = upload.fields([
+    { name : 'cover', maxCount : 1 },
+    { name : 'picture', maxCount : 3 }
+]);
+
+
+const create = async (req, res, next) => {
     try {
-        const result = await destinationService.createDestination(req.body);
+        // req.files akan berisi file yang diupload
+        // req.body akan berisi data teks
+        const data ={
+            ...req.body,
+            cover : req.files.cover[0].buffer,
+            categoryId : parseInt(req.body.categoryId),
+            picture : req.files.picture ? req.files.picture.map(file => ({
+                data : file.buffer
+            })) : []
+        };
+        const result = await destinationService.create(req.user, data);
         res.status(201).json({
             data: result
         });
     } catch (e) {
         next(e);
     }
-};
+}
+// const createDestination = async (req, res, next) => {
+//     try {
+//         const result = await destinationService.createDestination(req.body);
+//         res.status(201).json({
+//             data: result
+//         });
+//     } catch (e) {
+//         next(e);
+//     }
+// };
 
 const updateDestination = async (req, res, next) => {
     try {
@@ -59,7 +90,9 @@ const getDestinationById = async (req, res, next) => {
 };
 
 export default {
-    createDestination,
+    create,
+    uploadImage,
+    //createDestination,
     updateDestination,
     deleteDestination,
     getDestinations,

@@ -7,13 +7,12 @@ import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import {request} from "express";
 
-const checkCategoryExist = async (user, categoryId) => {
+const checkCategoryExist = async (categoryId) => {
 
     categoryId = validate(getCategoryValidation, categoryId)
 
     const totalCategoryInDatabase = await prismaClient.category.count({
         where: {
-            username: user.username,
             id: categoryId
         }
     });
@@ -25,25 +24,55 @@ const checkCategoryExist = async (user, categoryId) => {
     return totalCategoryInDatabase;
 }
 
-// const create = async (user, categoryId, request) => {
-//
-//     categoryId = await checkCategoryExist(user,categoryId);
-//
-//     //validate destination
-//     const destination = validate(createDestinationValidation, request);
-//     destination.categoryId = categoryId;
-//
-//     return prismaClient.destination.create({
-//         data : destination,
-//         select : {
-//             id : true,
-//             name : true,
-//             address : true,
-//             description : true,
-//             urlLocation : true,
-//         }
-//     });
-// }
+const create  = async (user, request) => {
+
+    //categoryId = await checkCategoryExist(categoryId);
+
+    //validate destination
+    const destination = validate(createDestinationValidation, request);
+
+    //periksa apakah kategori ada
+    await checkCategoryExist(destination.categoryId);
+
+    //buat destinasi baru
+    const newDestination = await prismaClient.destination.create({
+        data : {
+            name : destination.name,
+            cover : destination.cover,
+            address : destination.address,
+            description : destination.description,
+            urlLocation : destination.urlLocation
+        },
+        select : {
+            id : true,
+            name : true,
+            address : true,
+            description : true,
+            urlLocation : true,
+            Category : {
+                select : {
+                    name : true
+                }
+            }
+        }
+    });
+
+    // Jika ada gambar tambahan
+    if (destination.picture && destination.picture.length > 0) {
+        // Buat array data untuk picture
+        const pictureData = destination.picture.map(pic => ({
+            picture: pic.data, // Seharusnya berisi data binary/buffer
+            destinationId: newDestination.id
+        }));
+
+        // Simpan picture
+        await prismaClient.picture.createMany({
+            data: pictureData
+        });
+    }
+
+    return newDestination;
+}
 
 const createDestination = async (request) => {
     const destination = validate(createDestinationValidation, request);
@@ -95,6 +124,7 @@ const getDestinationById = async (destinationId) => {
 };
 
 export default {
+    create,
     createDestination,
     updateDestination,
     deleteDestination,
