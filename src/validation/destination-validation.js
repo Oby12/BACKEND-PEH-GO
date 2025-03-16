@@ -9,6 +9,9 @@ const createDestinationValidation = Joi.object({
     picture: Joi.array().items(Joi.any()).optional() // Untuk file upload multiple
 });
 
+
+const getCategoryValidation = Joi.number().positive().required();
+
 const updateDestinationValidation = Joi.object({
     id : Joi.number().positive().required(),
     cover: Joi.binary().required(), // Validasi untuk tipe `Bytes`
@@ -16,14 +19,12 @@ const updateDestinationValidation = Joi.object({
     address: Joi.string().max(150).required(),
     description: Joi.string().required(),
     urlLocation: Joi.string().uri().max(200).required(),
-    categoryId: Joi.number().integer().positive().required(),
+    // categoryId: Joi.number().integer().positive().required(),
     picture: Joi.array().items(Joi.object({
         id: Joi.number().integer().positive().optional(),
         url: Joi.string().uri().required(),
     })).optional(),
 });
-
-const getCategoryValidation = Joi.number().positive().required();
 
 export {
     createDestinationValidation,

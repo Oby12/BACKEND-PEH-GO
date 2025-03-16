@@ -21,6 +21,14 @@ const register = async (request) => {
         throw new ResponseError(400, "Username already taken")
     }
 
+    const existingUser = await prismaClient.user.findUnique({
+        where: { email: user.email }
+    });
+
+    if(existingUser){
+        throw new ResponseError(400, "Email already taken");
+    }
+
     // user.role = "WISATAWAN";
     //
     // //menggunakan bcrypt untuk menghash password
@@ -32,7 +40,7 @@ const register = async (request) => {
         name: user.name,
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
-        //role: "WISATAWAN"  // Selalu set ke WISATAWAN
+        //role: "ADMIN"  // Selalu set ke WISATAWAN
     };
 
     return prismaClient.user.create({

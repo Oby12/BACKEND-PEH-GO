@@ -5,7 +5,6 @@ import {
 } from "../validation/destination-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import {request} from "express";
 
 const checkCategoryExist = async (categoryId) => {
 
@@ -74,18 +73,18 @@ const create  = async (user, request) => {
     return newDestination;
 }
 
-const createDestination = async (request) => {
-    const destination = validate(createDestinationValidation, request);
-    return prismaClient.destination.create({
-        data: destination,
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            categoryId: true
-        }
-    });
-};
+// const createDestination = async (request) => {
+//     const destination = validate(createDestinationValidation, request);
+//     return prismaClient.destination.create({
+//         data: destination,
+//         select: {
+//             id: true,
+//             name: true,
+//             description: true,
+//             categoryId: true
+//         }
+//     });
+// };
 
 const updateDestination = async (destinationId, request) => {
     const destination = validate(updateDestinationValidation, request);
@@ -125,7 +124,7 @@ const getDestinationById = async (destinationId) => {
 
 export default {
     create,
-    createDestination,
+    //createDestination,
     updateDestination,
     deleteDestination,
     getDestinations,

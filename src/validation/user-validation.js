@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const registerUserValidation = Joi.object({
-    // role: Joi.string().valid("WISATAWAN").default("WISATAWAN"),
+    //role: Joi.string().valid("WISATAWAN", "ADMIN").default("WISATAWAN"),
     username : Joi.string().max(150).required(),
     name : Joi.string().max(150).required(),
     email : Joi.string().email().max(100).required(),

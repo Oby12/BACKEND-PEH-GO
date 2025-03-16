@@ -15,10 +15,12 @@ const create = async (req, res, next) => {
     try {
         // req.files akan berisi file yang diupload
         // req.body akan berisi data teks
+
+        const categoryId = parseInt(req.params.categoryId);
         const data ={
             ...req.body,
             cover : req.files.cover[0].buffer,
-            categoryId : parseInt(req.body.categoryId),
+            categoryId : categoryId,
             picture : req.files.picture ? req.files.picture.map(file => ({
                 data : file.buffer
             })) : []
