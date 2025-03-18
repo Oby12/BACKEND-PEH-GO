@@ -6,6 +6,7 @@ const createDestinationValidation = Joi.object({
     address: Joi.string().max(150).required(),
     description: Joi.string().required(),
     urlLocation: Joi.string().max(200).required(),
+    categoryId: Joi.number().positive().required(),
     picture: Joi.array().items(Joi.any()).optional() // Untuk file upload multiple
 });
 

@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/auth-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/auth-middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/error-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/error-middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/user-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/validation/destination-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/destination-validation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/user-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/user-validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +54,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.3.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -88,6 +92,9 @@
       <workItem from="1741937600511" duration="15858000" />
       <workItem from="1742024835128" duration="16930000" />
       <workItem from="1742081626034" duration="1841000" />
+      <workItem from="1742135615284" duration="4931000" />
+      <workItem from="1742181669722" duration="2131000" />
+      <workItem from="1742276185200" duration="5249000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />

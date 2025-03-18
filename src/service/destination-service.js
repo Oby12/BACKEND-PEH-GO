@@ -16,6 +16,8 @@ const checkCategoryExist = async (categoryId) => {
         }
     });
 
+    console.info(`totalCategoryInDatabase: ${totalCategoryInDatabase}`);
+
     if (totalCategoryInDatabase !== 1) {
         throw new ResponseError(404, "Category not found");
     }
@@ -30,6 +32,7 @@ const create  = async (user, request) => {
     //validate destination
     const destination = validate(createDestinationValidation, request);
 
+    console.info(`destination: ${JSON.stringify(destination)}`);
     //periksa apakah kategori ada
     await checkCategoryExist(destination.categoryId);
 
@@ -40,7 +43,12 @@ const create  = async (user, request) => {
             cover : destination.cover,
             address : destination.address,
             description : destination.description,
-            urlLocation : destination.urlLocation
+            urlLocation : destination.urlLocation,
+            Category : {
+                connect : {
+                    id : destination.categoryId
+                }
+            }
         },
         select : {
             id : true,

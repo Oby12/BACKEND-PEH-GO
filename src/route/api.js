@@ -6,7 +6,7 @@ const protectedRouter = express.Router();
 protectedRouter.use(authMiddleware(['ADMIN', 'WISATAWAN'])); // Hanya admin dan wisatawan yang bisa mengakses
 
 // Admin-only endpoints
-protectedRouter.post("/destinations", authMiddleware(['ADMIN']), destinationController.uploadImage,destinationController.create);
+protectedRouter.post("/users/:categoryId/destinations", authMiddleware(['ADMIN']), destinationController.uploadImage,destinationController.create);
 // protectedRouter.put("/destinations/:id", authMiddleware(['ADMIN']), destinationController.updateDestination);
 // protectedRouter.delete("/destinations/:id", authMiddleware(['ADMIN']), destinationController.deleteDestination);
 //

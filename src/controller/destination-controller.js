@@ -33,16 +33,7 @@ const create = async (req, res, next) => {
         next(e);
     }
 }
-// const createDestination = async (req, res, next) => {
-//     try {
-//         const result = await destinationService.createDestination(req.body);
-//         res.status(201).json({
-//             data: result
-//         });
-//     } catch (e) {
-//         next(e);
-//     }
-// };
+
 
 const updateDestination = async (req, res, next) => {
     try {

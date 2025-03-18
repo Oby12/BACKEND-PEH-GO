@@ -40,7 +40,7 @@ const register = async (request) => {
         name: user.name,
         email: user.email,
         password: await bcrypt.hash(user.password, 10),
-        //role: "ADMIN"  // Selalu set ke WISATAWAN
+        role: "WISATAWAN"  // Selalu set ke WISATAWAN
     };
 
     return prismaClient.user.create({
@@ -94,7 +94,8 @@ const login  = async (request) => {
             email : user.email
         },
         select : {
-            token : true
+            token : true,
+            role : true
         }
     });
 }
