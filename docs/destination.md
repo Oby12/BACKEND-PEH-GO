@@ -65,6 +65,7 @@ Response Body Success :
 {
     "data" : {
         "id" : 1,
+        "cover" : "destinasi.img",
         "name" : "ampera",
         "address" : "Jl. Jalan",
         "description" : "jembatan ampera",
@@ -158,7 +159,7 @@ Response Body Error :
 }
 ```
 
-## List Destination Api
+## List Destination Api 
 Endpoint : GET /users/destiantions
 
 Headers :
@@ -171,23 +172,19 @@ Response Body Success :
   "data" : [
     {
         "id" : 1,
+        "cover" : "destinasi.img",
         "name" : "Bali",
-        "description" : "Pulau Dewata",
-        "address" : "Jl. Jalan",
-        "city" : "Jakarta",
-        "province" : "DKI Jakarta",
-        "country" : "Indonesia",
-        "postalCode" : "12345"
+        "address" : "jl.address",
+        "description" : "palembang",
+        "urlLocation" : "https://www.google.com/maps"
     },
     {
-        "id" : 2,
-        "name" : "Bali",
-        "description" : "Pulau Dewata",
-        "address" : "Jl. Jalan",
-        "city" : "Jakarta",
-        "province" : "DKI Jakarta",
-        "country" : "Indonesia",
-        "postalCode" : "12345"
+      "id" : 2,
+      "cover" : "destinasi.img",
+      "name" : "Bali",
+      "address" : "jl.address",
+      "description" : "palembang",
+      "urlLocation" : "https://www.google.com/maps"
     }
   ]
 }

@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/destination.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/destination.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/auth-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/auth-middleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/error-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/error-middleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/user-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/validation/destination-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/destination-validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +92,11 @@
       <workItem from="1742081626034" duration="1841000" />
       <workItem from="1742135615284" duration="4931000" />
       <workItem from="1742181669722" duration="2131000" />
-      <workItem from="1742276185200" duration="5249000" />
+      <workItem from="1742276185200" duration="17064000" />
+      <workItem from="1742356844594" duration="4760000" />
+      <workItem from="1742480445624" duration="5314000" />
+      <workItem from="1742519979991" duration="10291000" />
+      <workItem from="1742625290124" duration="5661000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -120,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742043198017</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update">
+      <option name="closed" value="true" />
+      <created>1742291069735</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742291069735</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

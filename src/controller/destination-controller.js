@@ -17,7 +17,7 @@ const create = async (req, res, next) => {
         // req.body akan berisi data teks
 
         const categoryId = parseInt(req.params.categoryId);
-        const data ={
+        const data = {
             ...req.body,
             cover : req.files.cover[0].buffer,
             categoryId : categoryId,
@@ -25,20 +25,21 @@ const create = async (req, res, next) => {
                 data : file.buffer
             })) : []
         };
-        const result = await destinationService.create(req.user, data);
+        const result = await destinationService.create(data);
         res.status(201).json({
-            data: result
+            // message : "create new destination success"
+            data : result
         });
     } catch (e) {
         next(e);
     }
 }
 
-
-const updateDestination = async (req, res, next) => {
+const get = async (req, res, next) => {
     try {
-        const destinationId = parseInt(req.params.id);
-        const result = await destinationService.updateDestination(destinationId, req.body);
+        const categoryId = parseInt(req.params.categoryId);
+        const destinationId = parseInt(req.params.destinationId);
+        const result = await destinationService.get(categoryId, destinationId);
         res.status(200).json({
             data: result
         });
@@ -46,6 +47,75 @@ const updateDestination = async (req, res, next) => {
         next(e);
     }
 };
+
+const list = async (req, res, next) => {
+    try{
+
+        const categoryId = req.params.categoryId;
+
+        const result = await destinationService.list(categoryId);
+
+        res.status(200).json({
+            data : result
+        })
+    }catch (e) {
+        next(e);
+    }
+}
+
+const update = async (req, res, next) => {
+    try {
+        const categoryId = parseInt(req.params.categoryId);
+        const destinationId = parseInt(req.params.destinationId);
+
+        // Pastikan ID valid
+        if (isNaN(categoryId) || isNaN(destinationId)) {
+            return res.status(400).json({
+                errors: "Invalid ID parameters"
+            });
+        }
+
+        // Siapkan data request
+        const requestData = {
+            ...req.body,
+            id: destinationId,
+            categoryId: categoryId
+        };
+
+        // Tambahkan informasi file jika ada
+        if (req.files) {
+            if (req.files.cover && req.files.cover.length > 0) {
+                requestData.cover = req.files.cover[0].buffer;
+            }
+
+            if (req.files.picture && req.files.picture.length > 0) {
+                requestData.pictures = req.files.picture.map(file => ({
+                    data: file.buffer
+                }));
+            }
+        }
+
+        const result = await destinationService.update(categoryId, requestData);
+        res.status(200).json({
+            data: result
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+
+// const update = async (req, res, next) => {
+//     try {
+//         const categoryId = parseInt(req.params.id);
+//         const result = await destinationService.update(categoryId, req.body);
+//         res.status(200).json({
+//             data: result
+//         });
+//     } catch (e) {
+//         next(e);
+//     }
+// };
 
 const deleteDestination = async (req, res, next) => {
     try {
@@ -85,8 +155,11 @@ const getDestinationById = async (req, res, next) => {
 export default {
     create,
     uploadImage,
+    list,
+    get,
+    update,
     //createDestination,
-    updateDestination,
+    //updateDestination,
     deleteDestination,
     getDestinations,
     getDestinationById

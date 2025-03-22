@@ -1,14 +1,15 @@
 import { validate } from "../validation/validation.js";
 import {
-    createDestinationValidation, getCategoryValidation,
+    createDestinationValidation, getValidation,
     updateDestinationValidation
 } from "../validation/destination-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 
+//CEK KATEGORI ADA ATAU TIDAK
 const checkCategoryExist = async (categoryId) => {
 
-    categoryId = validate(getCategoryValidation, categoryId)
+    categoryId = validate(getValidation, categoryId)
 
     const totalCategoryInDatabase = await prismaClient.category.count({
         where: {
@@ -25,9 +26,8 @@ const checkCategoryExist = async (categoryId) => {
     return totalCategoryInDatabase;
 }
 
-const create  = async (user, request) => {
-
-    //categoryId = await checkCategoryExist(categoryId);
+//create destinasi [ADMIN]
+const create  = async (request) => {
 
     //validate destination
     const destination = validate(createDestinationValidation, request);
@@ -58,7 +58,8 @@ const create  = async (user, request) => {
             urlLocation : true,
             Category : {
                 select : {
-                    name : true
+                    name : true,
+                    //picture : true
                 }
             }
         }
@@ -78,13 +79,136 @@ const create  = async (user, request) => {
         });
     }
 
+
     return newDestination;
 }
 
-// const createDestination = async (request) => {
-//     const destination = validate(createDestinationValidation, request);
-//     return prismaClient.destination.create({
-//         data: destination,
+//detail destinasi [ANY]
+const get = async (categoryId, destinationId) => {
+
+    //periksa apakah kategori ada
+    await checkCategoryExist(categoryId);
+
+    destinationId = validate(getValidation, destinationId)
+
+    //ambil destinasi berdasarkan id
+    const destination = await prismaClient.destination.findFirst({
+        where : {
+            categoryId : categoryId,
+            id : destinationId
+        },
+        select : {
+            id: true,
+            //cover: true,
+            name: true,
+            address: true,
+            description: true,
+            urlLocation: true,
+            Category: {
+                select: {
+                    name: true
+                }
+            },
+            picture: {
+                select: {
+                    id: true,
+                    //picture: true
+                }
+            }
+        }
+    });
+
+    //check destinasi
+    if(!destination) {
+        throw new ResponseError(404, "Destination not found");
+    }
+
+    // Ubah format respons untuk gambar
+    if (destination.picture && destination.picture.length > 0) {
+        destination.picture = destination.picture.map(pic => ({
+            id: pic.id,
+            imageUrl: `/api/images/pictures/${pic.id}` // URL untuk mengakses gambar
+        }));
+    }
+
+    // Tambahkan URL untuk cover jika ada
+    destination.coverUrl = `/api/images/covers/${destination.id}`;
+
+
+    return destination;
+}
+
+//list destinasi [ANY]
+const list = async (categoryId) => {
+
+    categoryId = validate(getValidation, categoryId)
+
+    //periksa apakah kategori ada
+    await checkCategoryExist(categoryId);
+
+    //ambil semua destinasi
+    const destination = await prismaClient.destination.findMany({
+        where : {
+            categoryId : categoryId
+        },
+        select : {
+            id : true,
+            name : true,
+            address : true,
+            description : true,
+            urlLocation : true,
+        }
+    });
+
+    // Tambahkan URL untuk cover ke setiap objek destinasi
+    const destinationsWithCover = destination.map(destination => {
+        return {
+            ...destination,
+            coverUrl: `/api/images/covers/${destination.id}`
+        };
+    });
+
+    return destinationsWithCover;
+};
+
+// //update destinasi [ADMIN]
+// const update = async (categoryId, request) => {
+//
+//     //validate destination
+//     const destination = validate(updateDestinationValidation, request);
+//
+//     console.info(`destination: ${JSON.stringify(destination)}`);
+//     //periksa apakah kategori ada
+//     await checkCategoryExist(categoryId);
+//
+//     //check destinasi
+//     const totalDestinationInDatabase = await prismaClient.destination.count({
+//         where : {
+//             categoryId : categoryId,
+//             id : destination.id
+//         }
+//     });
+//
+//     if (totalDestinationInDatabase !== 1) {
+//         throw new ResponseError(404, "Destination not found");
+//     };
+//
+//     return prismaClient.destination.update({
+//         where: {
+//             id : destination.id
+//         },
+//         data: {
+//             name: destination.name,
+//             cover: destination.cover,
+//             address: destination.address,
+//             description: destination.description,
+//             urlLocation: destination.urlLocation,
+//             Category: {
+//                 connect: {
+//                     id: categoryId
+//                 }
+//             }
+//         },
 //         select: {
 //             id: true,
 //             name: true,
@@ -94,11 +218,51 @@ const create  = async (user, request) => {
 //     });
 // };
 
-const updateDestination = async (destinationId, request) => {
+//update destinasi [ADMIN]
+const update = async (categoryId, request) => {
+
+    //validate destination
     const destination = validate(updateDestinationValidation, request);
-    return prismaClient.destination.update({
-        where: { id: destinationId },
-        data: destination,
+
+    console.info(`destination: ${JSON.stringify(destination)}`);
+    //periksa apakah kategori ada
+    await checkCategoryExist(categoryId);
+
+    //check destinasi
+    const totalDestinationInDatabase = await prismaClient.destination.count({
+        where : {
+            categoryId : categoryId,
+            id : destination.id
+        }
+    });
+
+    if (totalDestinationInDatabase !== 1) {
+        throw new ResponseError(404, "Destination not found");
+    };
+
+    // Siapkan data untuk update
+    const updateData = {
+        name: destination.name,
+        address: destination.address,
+        description: destination.description,
+        urlLocation: destination.urlLocation,
+        Category: {
+            connect: {
+                id: categoryId
+            }
+        }
+    };
+
+    // Hanya tambahkan cover jika disediakan dalam request
+    if (destination.cover) {
+        updateData.cover = destination.cover;
+    }
+
+    const result = await prismaClient.destination.update({
+        where: {
+            id : destination.id
+        },
+        data: updateData,
         select: {
             id: true,
             name: true,
@@ -106,6 +270,11 @@ const updateDestination = async (destinationId, request) => {
             categoryId: true
         }
     });
+
+    // Tambahkan coverUrl ke hasil untuk konsistensi dengan endpoint list
+    result.coverUrl = `/api/images/covers/${result.id}`;
+
+    return result;
 };
 
 const deleteDestination = async (destinationId) => {
@@ -114,27 +283,11 @@ const deleteDestination = async (destinationId) => {
     });
 };
 
-const getDestinations = async () => {
-    return prismaClient.destination.findMany();
-};
-
-const getDestinationById = async (destinationId) => {
-    const destination = await prismaClient.destination.findUnique({
-        where: { id: destinationId }
-    });
-
-    if (!destination) {
-        throw new ResponseError(404, 'Destination not found');
-    }
-
-    return destination;
-};
 
 export default {
     create,
-    //createDestination,
-    updateDestination,
-    deleteDestination,
-    getDestinations,
-    getDestinationById
+    get,
+    list,
+    update,
+    deleteDestination
 };
