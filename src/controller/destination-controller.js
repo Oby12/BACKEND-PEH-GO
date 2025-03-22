@@ -105,22 +105,12 @@ const update = async (req, res, next) => {
 };
 
 
-// const update = async (req, res, next) => {
-//     try {
-//         const categoryId = parseInt(req.params.id);
-//         const result = await destinationService.update(categoryId, req.body);
-//         res.status(200).json({
-//             data: result
-//         });
-//     } catch (e) {
-//         next(e);
-//     }
-// };
-
-const deleteDestination = async (req, res, next) => {
+const remove = async (req, res, next) => {
     try {
-        const destinationId = parseInt(req.params.id);
-        await destinationService.deleteDestination(destinationId);
+        const categoryId = parseInt(req.params.categoryId);
+        const destinationId = parseInt(req.params.destinationId);
+
+        await destinationService.remove(categoryId, destinationId);
         res.status(200).json({
             message: 'Destination deleted successfully'
         });
@@ -129,28 +119,7 @@ const deleteDestination = async (req, res, next) => {
     }
 };
 
-const getDestinations = async (req, res, next) => {
-    try {
-        const result = await destinationService.getDestinations();
-        res.status(200).json({
-            data: result
-        });
-    } catch (e) {
-        next(e);
-    }
-};
 
-const getDestinationById = async (req, res, next) => {
-    try {
-        const destinationId = parseInt(req.params.id);
-        const result = await destinationService.getDestinationById(destinationId);
-        res.status(200).json({
-            data: result
-        });
-    } catch (e) {
-        next(e);
-    }
-};
 
 export default {
     create,
@@ -158,9 +127,9 @@ export default {
     list,
     get,
     update,
+    remove
     //createDestination,
     //updateDestination,
-    deleteDestination,
-    getDestinations,
-    getDestinationById
+
+
 };

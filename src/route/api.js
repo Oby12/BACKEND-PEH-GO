@@ -10,11 +10,11 @@ protectedRouter.use(authMiddleware(['ADMIN', 'WISATAWAN'])); // Hanya admin dan 
 // Admin-only endpoints
 protectedRouter.post("/users/:categoryId/destinations", authMiddleware(['ADMIN']), destinationController.uploadImage,destinationController.create);
 protectedRouter.put("/users/:categoryId/destinations/:destinationId", authMiddleware(['ADMIN']), destinationController.uploadImage, destinationController.update);
-// protectedRouter.delete("/destinations/:id", authMiddleware(['ADMIN']), destinationController.deleteDestination);
-//
+
 // // any-only endpoints
 protectedRouter.get("/users/:categoryId/destinations", destinationController.list);
 protectedRouter.get("/users/:categoryId/destinations/:destinationId", destinationController.get);
+protectedRouter.delete("/users/:categoryId/destinations/:destinationId", authMiddleware(['ADMIN']), destinationController.remove);
 
 //----------------------------------------------------------------------------
 // Endpoint untuk mengakses gambar cover

@@ -171,52 +171,6 @@ const list = async (categoryId) => {
     return destinationsWithCover;
 };
 
-// //update destinasi [ADMIN]
-// const update = async (categoryId, request) => {
-//
-//     //validate destination
-//     const destination = validate(updateDestinationValidation, request);
-//
-//     console.info(`destination: ${JSON.stringify(destination)}`);
-//     //periksa apakah kategori ada
-//     await checkCategoryExist(categoryId);
-//
-//     //check destinasi
-//     const totalDestinationInDatabase = await prismaClient.destination.count({
-//         where : {
-//             categoryId : categoryId,
-//             id : destination.id
-//         }
-//     });
-//
-//     if (totalDestinationInDatabase !== 1) {
-//         throw new ResponseError(404, "Destination not found");
-//     };
-//
-//     return prismaClient.destination.update({
-//         where: {
-//             id : destination.id
-//         },
-//         data: {
-//             name: destination.name,
-//             cover: destination.cover,
-//             address: destination.address,
-//             description: destination.description,
-//             urlLocation: destination.urlLocation,
-//             Category: {
-//                 connect: {
-//                     id: categoryId
-//                 }
-//             }
-//         },
-//         select: {
-//             id: true,
-//             name: true,
-//             description: true,
-//             categoryId: true
-//         }
-//     });
-// };
 
 //update destinasi [ADMIN]
 const update = async (categoryId, request) => {
@@ -277,9 +231,34 @@ const update = async (categoryId, request) => {
     return result;
 };
 
-const deleteDestination = async (destinationId) => {
-    await prismaClient.destination.delete({
-        where: { id: destinationId }
+const remove = async (categoryId, destinationId) => {
+
+    //periksa apakah kategori ada
+    await checkCategoryExist(categoryId);
+
+    destinationId = validate(getValidation, destinationId)
+
+    const totalDestinationInDatabase = await prismaClient.destination.count({
+        where : {
+            categoryId : categoryId,
+            id : destinationId
+        }
+    });
+
+    if (totalDestinationInDatabase !== 1) {
+        throw new ResponseError(404, "Destination not found");
+    }
+
+    await prismaClient.picture.deleteMany({
+        where: {
+            destinationId: destinationId
+        }
+    });
+
+    return prismaClient.destination.delete({
+        where: {
+            id: destinationId
+        }
     });
 };
 
@@ -289,5 +268,5 @@ export default {
     get,
     list,
     update,
-    deleteDestination
+    remove
 };
