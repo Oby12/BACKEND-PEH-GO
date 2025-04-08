@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update skripsi">
+    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur delete">
+      <change afterPath="$PROJECT_DIR$/src/utils/image-utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/destination.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/destination.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/error-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/error-middleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
     </list>
@@ -95,7 +101,12 @@
       <workItem from="1742480445624" duration="5314000" />
       <workItem from="1742519979991" duration="10291000" />
       <workItem from="1742625290124" duration="7338000" />
-      <workItem from="1742683052125" duration="1202000" />
+      <workItem from="1742683052125" duration="3453000" />
+      <workItem from="1743055636406" duration="854000" />
+      <workItem from="1743663588511" duration="3556000" />
+      <workItem from="1743915572515" duration="3392000" />
+      <workItem from="1744030658793" duration="1495000" />
+      <workItem from="1744067517681" duration="7455000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -137,7 +148,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742660656895</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update fitur delete">
+      <option name="closed" value="true" />
+      <created>1742684410752</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742684410752</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +166,7 @@
     <MESSAGE value="firts push" />
     <MESSAGE value="update" />
     <MESSAGE value="update skripsi" />
-    <option name="LAST_COMMIT_MESSAGE" value="update skripsi" />
+    <MESSAGE value="update fitur delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="update fitur delete" />
   </component>
 </project>

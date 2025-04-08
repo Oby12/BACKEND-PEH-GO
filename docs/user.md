@@ -7,7 +7,6 @@ Request Body
 
 ```json
 {
-  "role" : "user",
   "username" : "helloword",
   "name" : "helloword",
   "email": "helloworld@gmail.com",
@@ -44,7 +43,6 @@ Request Body
 
 ```json
 {
-  "role" : "WISATAWAN",
   "email" : "helloworld@gmail.com",
   "password" : "secretpassword"
   

@@ -1,222 +1,236 @@
-# Destination Reqruitment
+# Destination API Documentation
 
-## Create Destination Api
-Endpoint : POST /users/destinations
+## Authorization
+All destination APIs require authentication via a token in the Authorization header.
+Different endpoints require different user roles:
+- `ADMIN`: Required for creating, updating, and deleting destinations
+- `WISATAWAN` or `ADMIN`: Can access list and detail endpoints
 
-Headers :
-- Authorization : token
+## Create Destination API
+**Endpoint:** POST /users/:categoryId/destinations
 
-Request Body :
+**Headers:**
+- Authorization: token (ADMIN role required)
 
-```json
-{
-  "coverImage" : "destinasi.img",
-  "name" : "Ampera",
-  "address" : "Jl. Jalan",
-  "description" : "jembatan ampera",
-  "urlLocation" : "https://www.google.com/maps",
-  "picture" : [
-    {
-      "id" : 1,
-      "gambar" : "ampera.jpg",
-      "idDestination" : 1
-    },
-    {
-      "id" : 2,
-      "gambar" : "ampera.jpg",
-      "idDestination" : 1
-    }
-  ]
-}
+**Request Format:**
+- Content-Type: multipart/form-data
+
+**Form Fields:**
+```
+name: "Ampera"
+address: "Jl. Jalan"
+description: "Jembatan ampera adalah ikon kota Palembang"
+urlLocation: "https://www.google.com/maps?q=jembatan+ampera"
 ```
 
-Response Body Success :
+**Form Files:**
+```
+cover: [Single image file] (Required)
+picture: [Multiple image files, max 3] (Optional)
+```
 
+**Response Body Success (201):**
 ```json
 {
-  "data" : {
-    "id" : 1,
-    "name" : "ampera",
-    "address" : "Jl. Jalan",
-    "description" : "jembatan ampera",
-    "urlLocation" : "https://www.google.com/maps"
+  "data": {
+    "id": 1,
+    "name": "Ampera",
+    "address": "Jl. Jalan",
+    "description": "Jembatan ampera adalah ikon kota Palembang",
+    "urlLocation": "https://www.google.com/maps?q=jembatan+ampera",
+    "coverUrl": "/api/images/covers/1",
+    "Category": {
+      "name": "Destination"
+    }
   }
 }
 ```
 
-Response Body Error :
-
+**Response Body Error (400/404):**
 ```json
 {
-    "errors" : "Name is required"
+  "status": false,
+  "message": "Error message",
+  "errors": null
 }
 ```
 
-## Get Destination Api
+## Get Destination API
+**Endpoint:** GET /users/:categoryId/destinations/:destinationId
 
-Endpoint : GET /users/destinations/:idDestination
+**Headers:**
+- Authorization: token
 
-Headers :
-- Authorization : token
-
-Response Body Success :
-
+**Response Body Success (200):**
 ```json
 {
-    "data" : {
-        "id" : 1,
-        "cover" : "destinasi.img",
-        "name" : "ampera",
-        "address" : "Jl. Jalan",
-        "description" : "jembatan ampera",
-        "urlLocation" : "https://www.google.com/maps",
-        "picture" : [
-        {
-            "id" : 1,
-            "gambar" : "ampera.jpg",
-            "idDestination" : 1
-        },
-        {
-            "id" : 2,
-            "gambar" : "ampera.jpg",
-            "idDestination" : 1
-        }
-        ]
-    }
-}
-```
-
-Response Body Error :
-
-```json
-{
-    "errors" : "Data not found"
-}
-```
-
-## Update Destination Api
-
-Endpoint : PUT /users/destinations/:idDestination   
-
-Headers :
-- Authorization : token
-
-Request Body :
-
-```json
-{
-    "coverImage" : "destinasi.img",
-    "name" : "Ampera",
-    "address" : "Jl. Jalan",
-    "description" : "jembatan ampera",
-    "urlLocation" : "https://www.google.com/maps",
-    "picture" : [
-        {
-        "id" : 1,
-        "gambar" : "ampera.jpg",
-        "idDestination" : 1
-        },
-        {
-        "id" : 2,
-        "gambar" : "ampera.jpg",
-        "idDestination" : 1
-        }
+  "data": {
+    "id": 1,
+    "name": "Ampera",
+    "address": "Jl. Jalan",
+    "description": "Jembatan ampera adalah ikon kota Palembang",
+    "urlLocation": "https://www.google.com/maps?q=jembatan+ampera",
+    "coverUrl": "/api/images/covers/1",
+    "Category": {
+      "name": "Destination"
+    },
+    "picture": [
+      {
+        "id": 1,
+        "imageUrl": "/api/images/pictures/1"
+      },
+      {
+        "id": 2,
+        "imageUrl": "/api/images/pictures/2"
+      }
     ]
+  }
 }
 ```
 
-Response Body Success :
-
+**Response Body Error (404):**
 ```json
 {
-    "data" : {
-        "id" : 1,
-        "name" : "ampera",
-        "address" : "Jl. Jalan",
-        "description" : "jembatan ampera",
-        "urlLocation" : "https://www.google.com/maps",
-        "picture" : [
-        {
-            "id" : 1,
-            "gambar" : "ampera.jpg",
-            "idDestination" : 1
-        },
-        {
-            "id" : 2,
-            "gambar" : "ampera.jpg",
-            "idDestination" : 1
-        }
-        ]
-    }
+  "status": false,
+  "message": "Destinasi tidak ditemukan",
+  "errors": null
 }
 ```
 
-Response Body Error :
+## Update Destination API
+**Endpoint:** PUT /users/:categoryId/destinations/:destinationId
 
+**Headers:**
+- Authorization: token (ADMIN role required)
+
+**Request Format:**
+- Content-Type: multipart/form-data
+
+**Form Fields:**
+```
+name: "Ampera Updated"
+address: "Jl. Jalan Updated"
+description: "Deskripsi yang diperbarui"
+urlLocation: "https://www.google.com/maps?q=updated"
+```
+
+**Form Files:**
+```
+cover: [Single image file] (Optional - only if updating cover)
+picture: [Multiple image files, max 3] (Optional - only if updating pictures)
+```
+
+**Response Body Success (200):**
 ```json
 {
-    "errors" : "Data not found"
+  "data": {
+    "id": 1,
+    "name": "Ampera Updated",
+    "description": "Deskripsi yang diperbarui",
+    "categoryId": 1,
+    "coverUrl": "/api/images/covers/1"
+  }
 }
 ```
 
-## List Destination Api 
-Endpoint : GET /users/destiantions
-
-Headers :
-- Authorization : token
-
-Response Body Success :
-
+**Response Body Error (400/404):**
 ```json
 {
-  "data" : [
+  "status": false,
+  "message": "Error message",
+  "errors": null
+}
+```
+
+## List Destinations API
+**Endpoint:** GET /users/:categoryId/destinations
+
+**Headers:**
+- Authorization: token
+
+**Query Parameters:**
+- page: [pagination page number, default: 1]
+- limit: [items per page, default: 10]
+
+**Response Body Success (200):**
+```json
+{
+  "data": [
     {
-        "id" : 1,
-        "cover" : "destinasi.img",
-        "name" : "Bali",
-        "address" : "jl.address",
-        "description" : "palembang",
-        "urlLocation" : "https://www.google.com/maps"
+      "id": 1,
+      "name": "Ampera",
+      "address": "Jl. Jalan",
+      "description": "Jembatan ampera adalah ikon kota Palembang",
+      "urlLocation": "https://www.google.com/maps?q=jembatan+ampera",
+      "coverUrl": "/api/images/covers/1"
     },
     {
-      "id" : 2,
-      "cover" : "destinasi.img",
-      "name" : "Bali",
-      "address" : "jl.address",
-      "description" : "palembang",
-      "urlLocation" : "https://www.google.com/maps"
+      "id": 2,
+      "name": "Benteng Kuto Besak",
+      "address": "Jl. Benteng",
+      "description": "Benteng peninggalan sejarah di Palembang",
+      "urlLocation": "https://www.google.com/maps?q=benteng+kuto+besak",
+      "coverUrl": "/api/images/covers/2"
     }
-  ]
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 5,
+    "totalItems": 42,
+    "itemsPerPage": 10,
+    "hasNext": true,
+    "hasPrevious": false
+  }
 }
 ```
 
-Response Body Error :
-
+**Response Body Error (404):**
 ```json
 {
-  "errors" : "Data not found"
+  "status": false,
+  "message": "Kategori tidak ditemukan",
+  "errors": null
 }
 ```
 
-## Delete Destination Api
+## Delete Destination API
+**Endpoint:** DELETE /users/:categoryId/destinations/:destinationId
 
-Endpoint : DELETE /users/destiantions/:idDestination
+**Headers:**
+- Authorization: token (ADMIN role required)
 
-Headers :
-- Authorization : token
-
-Response Body Success :
-
+**Response Body Success (200):**
 ```json
 {
-  "data" : "Delete success"
+  "message": "Destinasi berhasil dihapus"
 }
 ```
 
-Response Body Error :
-
+**Response Body Error (404):**
 ```json
 {
-    "errors" : "Destination not found"
+  "status": false,
+  "message": "Destinasi tidak ditemukan",
+  "errors": null
 }
 ```
+
+## Get Destination Cover Image
+**Endpoint:** GET /api/images/covers/:id
+
+**Headers:**
+- Authorization: token
+
+**Response:**
+- Content-Type: image/jpeg
+- The binary image data
+
+## Get Destination Picture Image
+**Endpoint:** GET /api/images/pictures/:id
+
+**Headers:**
+- Authorization: token
+
+**Response:**
+- Content-Type: image/jpeg
+- The binary image data
