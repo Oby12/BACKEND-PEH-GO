@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur delete">
-      <change afterPath="$PROJECT_DIR$/src/utils/image-utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/base64-image-controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/destination.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/destination.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware/error-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/error-middleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/route/public-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/public-api.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +101,11 @@
       <workItem from="1743663588511" duration="3556000" />
       <workItem from="1743915572515" duration="3392000" />
       <workItem from="1744030658793" duration="1495000" />
-      <workItem from="1744067517681" duration="7455000" />
+      <workItem from="1744067517681" duration="13735000" />
+      <workItem from="1744175725853" duration="2446000" />
+      <workItem from="1744263463384" duration="4920000" />
+      <workItem from="1744340602841" duration="3219000" />
+      <workItem from="1744454258677" duration="2345000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -156,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742684410752</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update fitur delete">
+      <option name="closed" value="true" />
+      <created>1744097620706</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744097620706</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

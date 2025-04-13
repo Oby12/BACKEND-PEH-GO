@@ -27,8 +27,8 @@ protectedRouter.delete("/users/:categoryId/destinations/:destinationId",
     destinationController.remove
 );
 
-// Endpoint khusus untuk mengakses gambar dengan caching
-protectedRouter.get("/api/images/covers/:id", destinationController.getCoverImage);
-protectedRouter.get("/api/images/pictures/:id", destinationController.getPictureImage);
+// // Endpoint khusus untuk mengakses gambar dengan caching
+// protectedRouter.get("/api/images/covers/:id", destinationController.getCoverImage);
+// protectedRouter.get("/api/images/pictures/:id", destinationController.getPictureImage);
 
 export { protectedRouter };
