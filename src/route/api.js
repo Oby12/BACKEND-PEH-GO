@@ -2,6 +2,8 @@
 import destinationController from "../controller/destination-controller.js";
 import { authMiddleware } from "../middleware/auth-middleware.js";
 import express from "express";
+import userController from "../controller/user-controller.js";
+import statsController from "../controller/stats-controller.js";
 
 const protectedRouter = express.Router();
 protectedRouter.use(authMiddleware(['ADMIN', 'WISATAWAN'])); // Hanya admin dan wisatawan yang bisa mengakses
@@ -27,8 +29,22 @@ protectedRouter.delete("/users/:categoryId/destinations/:destinationId",
     destinationController.remove
 );
 
+//endpoint untuk logout
+protectedRouter.delete("/users/logout", userController.logout);
+
 // // Endpoint khusus untuk mengakses gambar dengan caching
 // protectedRouter.get("/api/images/covers/:id", destinationController.getCoverImage);
 // protectedRouter.get("/api/images/pictures/:id", destinationController.getPictureImage);
+
+// Endpoint statistik untuk admin
+protectedRouter.get("/admin/stats",
+    authMiddleware(['ADMIN']),
+    statsController.getStats
+);
+
+// Endpoint untuk mencatat view destinasi
+protectedRouter.post("/destinations/:destinationId/view",
+    statsController.addDestinationView
+);
 
 export { protectedRouter };

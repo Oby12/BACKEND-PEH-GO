@@ -19,12 +19,14 @@ enum Role {
 }
 
 model User {
-  role     Role    @default(WISATAWAN)
-  username String  @id @db.VarChar(150)
-  name     String  @db.VarChar(150)
-  email    String  @unique @db.VarChar(100)
-  password String  @db.VarChar(150)
-  token    String? @db.VarChar(150)
+  role            Role              @default(WISATAWAN)
+  username        String            @id @db.VarChar(150)
+  name            String            @db.VarChar(150)
+  email           String            @unique @db.VarChar(100)
+  password        String            @db.VarChar(150)
+  token           String?           @db.VarChar(150)
+  DestinationView DestinationView[]
+  UserLogin       UserLogin[]
 
   @@map("users")
 }
@@ -39,15 +41,16 @@ model Category {
 }
 
 model Destination {
-  id          Int       @id @default(autoincrement())
-  cover       Bytes     @db.MediumBlob
-  name        String    @db.VarChar(150)
-  address     String    @db.VarChar(150)
-  description String    @db.Text
-  urlLocation String    @db.VarChar(200)
-  categoryId  Int
-  Category    Category  @relation(fields: [categoryId], references: [id])
-  picture     Picture[]
+  id              Int               @id @default(autoincrement())
+  cover           Bytes             @db.MediumBlob
+  name            String            @db.VarChar(150)
+  address         String            @db.VarChar(150)
+  description     String            @db.Text
+  urlLocation     String            @db.VarChar(200)
+  categoryId      Int
+  Category        Category          @relation(fields: [categoryId], references: [id])
+  picture         Picture[]
+  DestinationView DestinationView[]
 
   @@map("destinations")
 }
@@ -59,4 +62,26 @@ model Picture {
   Destination   Destination @relation(fields: [destinationId], references: [id])
 
   @@map("pictures")
+}
+
+//untuk total views destianasi
+
+model DestinationView {
+  id            Int         @id @default(autoincrement())
+  destinationId Int
+  userId        String      @db.VarChar(150)
+  viewedAt      DateTime    @default(now())
+  Destination   Destination @relation(fields: [destinationId], references: [id])
+  User          User        @relation(fields: [userId], references: [username])
+
+  @@map("destination_views")
+}
+
+model UserLogin {
+  id      Int      @id @default(autoincrement())
+  userId  String   @db.VarChar(150)
+  loginAt DateTime @default(now())
+  User    User     @relation(fields: [userId], references: [username])
+
+  @@map("user_logins")
 }

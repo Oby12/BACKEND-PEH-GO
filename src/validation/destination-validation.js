@@ -21,7 +21,9 @@ const updateDestinationValidation = Joi.object({
     description: Joi.string().optional(),
     urlLocation: Joi.string().max(200).optional(),
     categoryId: Joi.number().positive().required(),
-    picture: Joi.array().items(Joi.any()).optional() // Untuk file upload multiple
+    picture: Joi.array().items(Joi.any()).optional(), // Untuk file upload multiple
+    pictures: Joi.array().items(Joi.any()).optional(), // Field name alternatif untuk kompatibilitas
+    removedPictureIds: Joi.any().optional() // Untuk menghapus gambar - menerima format apapun
 });
 
 export {

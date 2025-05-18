@@ -4,6 +4,7 @@ import {ResponseError} from "../error/response-error.js";
 import bcrypt from "bcrypt";
 import {prismaClient} from "../application/database.js";
 import {v4 as uuid }from "uuid"
+import statsService from "./stats-service.js";
 
 const register = async (request) => {
 
@@ -64,6 +65,7 @@ const login  = async (request) => {
             email : loginRequest.email
         },
         select : {
+            username : true,
             email : true,
             password : true
         }
@@ -80,6 +82,8 @@ const login  = async (request) => {
     if(!isPasswordValid){
         throw new ResponseError(400, "Email or password is wrong");
     }
+
+    await statsService.recordUserLogin(user.username);
 
     const token = uuid().toString();
 
@@ -98,9 +102,48 @@ const login  = async (request) => {
             role : true
         }
     });
+
+
+
+}
+
+const logout = async (token) => {
+    if (!token) {
+        throw new ResponseError(401, "Unauthorized");
+    }
+
+    // Cari user dengan token yang dimaksud
+    const user = await prismaClient.user.findFirst({
+        where: {
+            token: token
+        }
+    });
+
+    // Jika user tidak ditemukan, token sudah tidak valid
+    if (!user) {
+        // Tidak perlu throw error, cukup return saja
+        // karena client memang ingin menghapus token
+        return {
+            message: "Token sudah tidak valid"
+        };
+    }
+
+    // Hapus token dari user
+    return prismaClient.user.update({
+        where: {
+            username: user.username
+        },
+        data: {
+            token: null
+        },
+        select: {
+            username: true
+        }
+    });
 }
 
 export default {
     register,
-    login
+    login,
+    logout
 }

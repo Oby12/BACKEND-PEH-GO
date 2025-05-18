@@ -3,6 +3,7 @@ import express from "express";
 import userController from "../controller/user-controller.js";
 import destinationController from "../controller/destination-controller.js";
 import base64ImageController from "../controller/base64-image-controller.js";
+import barcodeController from "../controller/barcode-controller.js";
 
 const publicRouter = new express.Router();
 
@@ -19,6 +20,8 @@ publicRouter.get("/api/images/pictures/:id", destinationController.getPictureIma
 publicRouter.get("/api/images/base64/covers/:id", base64ImageController.getBase64CoverImage);
 publicRouter.get("/api/images/base64/pictures/:id", base64ImageController.getBase64PictureImage);
 
+//barcode
+publicRouter.get("/api/barcode/:categoryId/:destinationId", barcodeController.generateQRCode);
 export {
     publicRouter
 }

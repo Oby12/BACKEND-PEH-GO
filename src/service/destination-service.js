@@ -219,59 +219,184 @@ const list = async (categoryId, page = 1, limit = 10) => {
 
 // Update destinasi [ADMIN]
 const update = async (categoryId, request) => {
-    // Validate destination
-    const destination = validate(updateDestinationValidation, request);
+    console.log("Memproses update destinasi dengan data:", JSON.stringify(request, null, 2));
 
-    // Periksa apakah kategori ada
-    await checkCategoryExist(categoryId);
+    try {
+        // Validate destination
+        const destination = validate(updateDestinationValidation, request);
+        console.log("Data setelah validasi:", JSON.stringify(destination, null, 2));
 
-    // Check destinasi
-    const totalDestinationInDatabase = await prismaClient.destination.count({
-        where: {
-            categoryId: categoryId,
-            id: destination.id
+        // Periksa apakah kategori ada
+        await checkCategoryExist(categoryId);
+
+        // Check destinasi
+        const totalDestinationInDatabase = await prismaClient.destination.count({
+            where: {
+                categoryId: categoryId,
+                id: destination.id
+            }
+        });
+
+        if (totalDestinationInDatabase !== 1) {
+            throw new ResponseError(404, "Destinasi tidak ditemukan");
         }
-    });
 
-    if (totalDestinationInDatabase !== 1) {
-        throw new ResponseError(404, "Destinasi tidak ditemukan");
-    }
+        // Siapkan data untuk update
+        const updateData = {
+            name: destination.name,
+            address: destination.address,
+            description: destination.description,
+            urlLocation: destination.urlLocation,
+            Category: {
+                connect: {
+                    id: categoryId
+                }
+            }
+        };
 
-    // Siapkan data untuk update
-    const updateData = {
-        name: destination.name,
-        address: destination.address,
-        description: destination.description,
-        urlLocation: destination.urlLocation,
-        Category: {
-            connect: {
-                id: categoryId
+        // Hanya tambahkan cover jika disediakan dalam request
+        if (destination.cover) {
+            updateData.cover = destination.cover;
+        }
+
+        // Proses IDs gambar yang akan dihapus
+        let removedPictureIds = [];
+        if (destination.removedPictureIds) {
+            try {
+                // Penanganan untuk string dengan format "id1,id2,id3"
+                if (typeof destination.removedPictureIds === 'string' && destination.removedPictureIds.includes(',')) {
+                    removedPictureIds = destination.removedPictureIds
+                        .split(',')
+                        .map(id => parseInt(id.trim()))
+                        .filter(id => !isNaN(id));
+                    console.log("removedPictureIds parsed dari string CSV:", removedPictureIds);
+                }
+                // Coba parse jika berbentuk string JSON
+                else if (typeof destination.removedPictureIds === 'string') {
+                    try {
+                        const parsed = JSON.parse(destination.removedPictureIds);
+                        if (Array.isArray(parsed)) {
+                            removedPictureIds = parsed;
+                        } else {
+                            removedPictureIds = [parseInt(destination.removedPictureIds)];
+                        }
+                        console.log("removedPictureIds parsed dari string JSON:", removedPictureIds);
+                    } catch (jsonError) {
+                        // Jika bukan JSON valid, coba parse sebagai ID tunggal
+                        const singleId = parseInt(destination.removedPictureIds);
+                        if (!isNaN(singleId)) {
+                            removedPictureIds = [singleId];
+                        }
+                        console.log("removedPictureIds diproses sebagai ID tunggal:", removedPictureIds);
+                    }
+                }
+                // Jika sudah berbentuk array, gunakan langsung
+                else if (Array.isArray(destination.removedPictureIds)) {
+                    removedPictureIds = destination.removedPictureIds;
+                    console.log("removedPictureIds sudah berbentuk array:", removedPictureIds);
+                }
+                // Jika masih berbentuk objek dengan properti 'data'
+                else if (destination.removedPictureIds.data) {
+                    removedPictureIds = destination.removedPictureIds.data;
+                    console.log("removedPictureIds diambil dari property data:", removedPictureIds);
+                }
+                else {
+                    console.log("Format removedPictureIds tidak dikenali:", destination.removedPictureIds);
+                }
+            } catch (e) {
+                console.error("Error parsing removedPictureIds:", e.message);
             }
         }
-    };
 
-    // Hanya tambahkan cover jika disediakan dalam request
-    if (destination.cover) {
-        updateData.cover = destination.cover;
+        console.log("Final removedPictureIds yang akan diproses:", removedPictureIds);
+
+        // Mulai transaksi untuk memastikan semua operasi database berhasil atau gagal bersama
+        const result = await prismaClient.$transaction(async (prisma) => {
+            // 1. Update data destinasi
+            const updatedDestination = await prisma.destination.update({
+                where: {
+                    id: destination.id
+                },
+                data: updateData,
+                select: {
+                    id: true,
+                    name: true,
+                    description: true,
+                    categoryId: true,
+                    address: true,
+                    urlLocation: true
+                }
+            });
+
+            // 2. Hapus gambar yang ditandai untuk dihapus jika ada
+            if (removedPictureIds && removedPictureIds.length > 0) {
+                console.log(`Menghapus gambar dengan ID: ${removedPictureIds.join(', ')}`);
+                try {
+                    const deleteResult = await prisma.picture.deleteMany({
+                        where: {
+                            id: {
+                                in: removedPictureIds
+                            },
+                            destinationId: destination.id // Pastikan hanya menghapus gambar dari destinasi ini
+                        }
+                    });
+                    console.log(`Gambar yang berhasil dihapus: ${deleteResult.count}`);
+                } catch (deleteError) {
+                    console.error("Error saat menghapus gambar:", deleteError);
+                    // Throw error untuk gagalkan transaksi
+                    throw deleteError;
+                }
+            }
+
+            // 3. Tambahkan gambar baru jika ada
+            // Pilih data gambar dari field yang tersedia (pictures atau picture)
+            const newPictures = destination.pictures || destination.picture || [];
+
+            if (newPictures.length > 0) {
+                // Hitung gambar yang ada saat ini (setelah menghapus yang ditandai)
+                const currentPictureCount = await prisma.picture.count({
+                    where: {
+                        destinationId: destination.id
+                    }
+                });
+
+                console.log(`Jumlah gambar saat ini: ${currentPictureCount}, menambahkan ${newPictures.length} gambar baru`);
+
+                // Pastikan total gambar tidak melebihi batas 3
+                const availableSlots = 3 - currentPictureCount;
+
+                if (availableSlots <= 0) {
+                    throw new ResponseError(400, "Maksimal 3 gambar per destinasi. Hapus beberapa gambar terlebih dahulu.");
+                }
+
+                // Pilih hanya jumlah gambar yang cukup untuk slot yang tersedia
+                const picturesToAdd = newPictures.slice(0, availableSlots);
+
+                // Konversi dari format controller menjadi format untuk database
+                const pictureData = picturesToAdd.map(pic => ({
+                    picture: pic.data,
+                    destinationId: destination.id
+                }));
+
+                // Simpan gambar baru
+                if (pictureData.length > 0) {
+                    await prisma.picture.createMany({
+                        data: pictureData
+                    });
+                }
+            }
+
+            return updatedDestination;
+        });
+
+        // Tambahkan coverUrl ke hasil untuk konsistensi dengan endpoint list
+        result.coverUrl = `/api/images/covers/${result.id}`;
+
+        return result;
+    } catch (error) {
+        console.error("Error saat update destinasi:", error);
+        throw error; // Re-throw error untuk ditangani oleh error middleware
     }
-
-    const result = await prismaClient.destination.update({
-        where: {
-            id: destination.id
-        },
-        data: updateData,
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            categoryId: true
-        }
-    });
-
-    // Tambahkan coverUrl ke hasil untuk konsistensi dengan endpoint list
-    result.coverUrl = `/api/images/covers/${result.id}`;
-
-    return result;
 };
 
 const remove = async (categoryId, destinationId) => {

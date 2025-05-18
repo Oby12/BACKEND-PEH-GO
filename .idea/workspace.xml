@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur delete">
-      <change afterPath="$PROJECT_DIR$/src/controller/base64-image-controller.js" afterDir="false" />
+    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur">
+      <change afterPath="$PROJECT_DIR$/src/controller/barcode-controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/stats-controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/stats-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/user-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/user-controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/public-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/public-api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/user-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/destination-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/destination-validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +115,21 @@
       <workItem from="1744263463384" duration="4920000" />
       <workItem from="1744340602841" duration="3219000" />
       <workItem from="1744454258677" duration="2345000" />
+      <workItem from="1744509513645" duration="5534000" />
+      <workItem from="1744596931174" duration="1507000" />
+      <workItem from="1744705613455" duration="1840000" />
+      <workItem from="1744723877426" duration="4668000" />
+      <workItem from="1744777547468" duration="1786000" />
+      <workItem from="1744879810822" duration="626000" />
+      <workItem from="1744944430707" duration="9664000" />
+      <workItem from="1745001131924" duration="565000" />
+      <workItem from="1745561177604" duration="2410000" />
+      <workItem from="1745763977578" duration="573000" />
+      <workItem from="1747136948944" duration="4241000" />
+      <workItem from="1747201888059" duration="1082000" />
+      <workItem from="1747305482886" duration="579000" />
+      <workItem from="1747396281611" duration="495000" />
+      <workItem from="1747437920572" duration="7655000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -163,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744097620706</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update fitur">
+      <option name="closed" value="true" />
+      <created>1744509681996</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744509681996</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +206,7 @@
     <MESSAGE value="update" />
     <MESSAGE value="update skripsi" />
     <MESSAGE value="update fitur delete" />
-    <option name="LAST_COMMIT_MESSAGE" value="update fitur delete" />
+    <MESSAGE value="update fitur" />
+    <option name="LAST_COMMIT_MESSAGE" value="update fitur" />
   </component>
 </project>
