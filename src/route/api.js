@@ -4,6 +4,7 @@ import { authMiddleware } from "../middleware/auth-middleware.js";
 import express from "express";
 import userController from "../controller/user-controller.js";
 import statsController from "../controller/stats-controller.js";
+import favoriteController from "../controller/favorite-controller.js";
 
 const protectedRouter = express.Router();
 protectedRouter.use(authMiddleware(['ADMIN', 'WISATAWAN'])); // Hanya admin dan wisatawan yang bisa mengakses
@@ -45,6 +46,24 @@ protectedRouter.get("/admin/stats",
 // Endpoint untuk mencatat view destinasi
 protectedRouter.post("/destinations/:destinationId/view",
     statsController.addDestinationView
+);
+
+// Endpoint untuk mengecek status favorit
+protectedRouter.get(
+    "/destinations/:destinationId/favorite",
+    favoriteController.checkIsFavorite
+);
+
+// Endpoint untuk menambah/menghapus favorit
+protectedRouter.post(
+    "/destinations/:destinationId/favorite",
+    favoriteController.toggleFavorite
+);
+
+// Endpoint untuk mendapatkan daftar favorit
+protectedRouter.get(
+    "/users/favorites",
+    favoriteController.getUserFavorites
 );
 
 export { protectedRouter };

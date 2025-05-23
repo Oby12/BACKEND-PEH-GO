@@ -4,21 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur">
-      <change afterPath="$PROJECT_DIR$/src/controller/barcode-controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/stats-controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/stats-service.js" afterDir="false" />
+    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update bug">
+      <change afterPath="$PROJECT_DIR$/src/controller/favorite-controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/favorite-service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/destination-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/destination-controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/user-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/user-controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/route/public-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/public-api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/user-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/user-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validation/destination-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/destination-validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +122,14 @@
       <workItem from="1747305482886" duration="579000" />
       <workItem from="1747396281611" duration="495000" />
       <workItem from="1747437920572" duration="7655000" />
+      <workItem from="1747530272648" duration="5308000" />
+      <workItem from="1747629051045" duration="4848000" />
+      <workItem from="1747705932965" duration="484000" />
+      <workItem from="1747725821482" duration="949000" />
+      <workItem from="1747727055563" duration="1818000" />
+      <workItem from="1747735997503" duration="1182000" />
+      <workItem from="1747787761238" duration="3638000" />
+      <workItem from="1748028645986" duration="1842000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -195,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744509681996</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update fitur">
+      <option name="closed" value="true" />
+      <created>1747556978079</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1747556978079</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,6 +215,7 @@
     <MESSAGE value="update skripsi" />
     <MESSAGE value="update fitur delete" />
     <MESSAGE value="update fitur" />
-    <option name="LAST_COMMIT_MESSAGE" value="update fitur" />
+    <MESSAGE value="update bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="update bug" />
   </component>
 </project>

@@ -1,4 +1,3 @@
-// src/service/destination-service.js
 import { validate } from "../validation/validation.js";
 import {
     createDestinationValidation, getValidation,
@@ -416,19 +415,38 @@ const remove = async (categoryId, destinationId) => {
         throw new ResponseError(404, "Destinasi tidak ditemukan");
     }
 
+    console.log(`Menghapus semua catatan view untuk destinasi ${destinationId}`);
+    await prismaClient.destinationView.deleteMany({
+        where: {
+            destinationId: destinationId
+        }
+    });
+
     // Hapus semua gambar terkait terlebih dahulu
+    console.log(`Menghapus semua gambar untuk destinasi ${destinationId}`);
     await prismaClient.picture.deleteMany({
         where: {
             destinationId: destinationId
         }
     });
 
+    //hapus dari favorite
+    console.log(`Menghapus semua favorite untuk destinasi ${destinationId}`);
+    await prismaClient.favoriteDestination.deleteMany({
+        where: {
+            destinationId: destinationId
+        }
+    });
+
     // Hapus destinasi
+    console.log(`Menghapus destinasi ${destinationId}`);
     return prismaClient.destination.delete({
         where: {
             id: destinationId
         }
     });
+
+
 };
 
 export default {
