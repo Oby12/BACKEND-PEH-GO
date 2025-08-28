@@ -51,15 +51,47 @@ const getPictureImage = async (pictureId) => {
     return picture;
 };
 
-// Create destinasi [ADMIN]
+// Helper function untuk extract YouTube video ID
+const extractYoutubeVideoId = (url) => {
+    if (!url) return null;
+
+    const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /^([^&\n?#]+)$/ // Jika hanya ID yang dimasukkan
+    ];
+
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    return null;
+};
+
+// Helper function untuk membuat embed URL
+const createYoutubeEmbedUrl = (url) => {
+    if (!url) return null;
+
+    const videoId = extractYoutubeVideoId(url);
+    if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return null;
+};
+
+// Update fungsi create destinasi
 const create = async (request) => {
-    // Validate destination
     const destination = validate(createDestinationValidation, request);
 
-    // Periksa apakah kategori ada
     await checkCategoryExist(destination.categoryId);
 
-    // Buat destinasi baru
+    // Process YouTube URL jika ada
+    let youtubeUrl = null;
+    if (destination.youtubeUrl) {
+        youtubeUrl = destination.youtubeUrl.trim();
+    }
+
     const newDestination = await prismaClient.destination.create({
         data: {
             name: destination.name,
@@ -67,6 +99,7 @@ const create = async (request) => {
             address: destination.address,
             description: destination.description,
             urlLocation: destination.urlLocation,
+            youtubeUrl: youtubeUrl, // Simpan YouTube URL
             Category: {
                 connect: {
                     id: destination.categoryId
@@ -79,6 +112,7 @@ const create = async (request) => {
             address: true,
             description: true,
             urlLocation: true,
+            youtubeUrl: true, // Include dalam response
             Category: {
                 select: {
                     name: true
@@ -87,37 +121,36 @@ const create = async (request) => {
         }
     });
 
-    // Jika ada gambar tambahan
+    // Handle pictures jika ada
     if (destination.picture && destination.picture.length > 0) {
-        // Buat array data untuk picture
         const pictureData = destination.picture.map(pic => ({
             picture: pic.data,
             destinationId: newDestination.id
         }));
 
-        // Simpan picture
         await prismaClient.picture.createMany({
             data: pictureData
         });
     }
 
-    // Tambahkan URL untuk akses gambar
+    // Process YouTube URL untuk embed
+    if (newDestination.youtubeUrl) {
+        newDestination.youtubeEmbedUrl = createYoutubeEmbedUrl(newDestination.youtubeUrl);
+    }
+
     newDestination.coverUrl = `/api/images/covers/${newDestination.id}`;
 
     return newDestination;
 };
 
-// Detail destinasi [ANY]
+// Update fungsi get detail destinasi
 const get = async (categoryId, destinationId) => {
-    // Periksa apakah kategori ada
     await checkCategoryExist(categoryId);
 
     destinationId = validate(getValidation, destinationId);
 
-    // Ambil destinasi berdasarkan id
     const destination = await prismaClient.destination.findFirst({
         where: {
-            categoryId: categoryId,
             id: destinationId
         },
         select: {
@@ -126,6 +159,7 @@ const get = async (categoryId, destinationId) => {
             address: true,
             description: true,
             urlLocation: true,
+            youtubeUrl: true, // Include YouTube URL
             Category: {
                 select: {
                     name: true
@@ -139,12 +173,11 @@ const get = async (categoryId, destinationId) => {
         }
     });
 
-    // Check destinasi
     if (!destination) {
         throw new ResponseError(404, "Destinasi tidak ditemukan");
     }
 
-    // Ubah format respons untuk gambar
+    // Process pictures
     if (destination.picture && destination.picture.length > 0) {
         destination.picture = destination.picture.map(pic => ({
             id: pic.id,
@@ -152,7 +185,11 @@ const get = async (categoryId, destinationId) => {
         }));
     }
 
-    // Tambahkan URL untuk cover
+    // Process YouTube URL untuk embed
+    if (destination.youtubeUrl) {
+        destination.youtubeEmbedUrl = createYoutubeEmbedUrl(destination.youtubeUrl);
+    }
+
     destination.coverUrl = `/api/images/covers/${destination.id}`;
 
     return destination;
@@ -218,7 +255,42 @@ const list = async (categoryId, page = 1, limit = 10) => {
 
 // Update destinasi [ADMIN]
 const update = async (categoryId, request) => {
-    console.log("Memproses update destinasi dengan data:", JSON.stringify(request, null, 2));
+    const destination = validate(updateDestinationValidation, request);
+
+    await checkCategoryExist(categoryId);
+
+    const totalDestinationInDatabase = await prismaClient.destination.count({
+        where: {
+            categoryId: categoryId,
+            id: destination.id
+        }
+    });
+
+    if (totalDestinationInDatabase !== 1) {
+        throw new ResponseError(404, "Destinasi tidak ditemukan");
+    }
+
+    const updateData = {
+        name: destination.name,
+        address: destination.address,
+        description: destination.description,
+        urlLocation: destination.urlLocation,
+        Category: {
+            connect: {
+                id: categoryId
+            }
+        }
+    };
+
+    // Update YouTube URL jika disediakan
+    if (destination.youtubeUrl !== undefined) {
+        updateData.youtubeUrl = destination.youtubeUrl ? destination.youtubeUrl.trim() : null;
+    }
+
+    // Update cover jika disediakan
+    if (destination.cover) {
+        updateData.cover = destination.cover;
+    }
 
     try {
         // Validate destination
@@ -311,7 +383,6 @@ const update = async (categoryId, request) => {
 
         // Mulai transaksi untuk memastikan semua operasi database berhasil atau gagal bersama
         const result = await prismaClient.$transaction(async (prisma) => {
-            // 1. Update data destinasi
             const updatedDestination = await prisma.destination.update({
                 where: {
                     id: destination.id
@@ -323,7 +394,8 @@ const update = async (categoryId, request) => {
                     description: true,
                     categoryId: true,
                     address: true,
-                    urlLocation: true
+                    urlLocation: true,
+                    youtubeUrl: true // Include dalam response
                 }
             });
 
@@ -387,6 +459,11 @@ const update = async (categoryId, request) => {
 
             return updatedDestination;
         });
+
+        // Process YouTube URL untuk embed
+        if (result.youtubeUrl) {
+            result.youtubeEmbedUrl = createYoutubeEmbedUrl(result.youtubeUrl);
+        }
 
         // Tambahkan coverUrl ke hasil untuk konsistensi dengan endpoint list
         result.coverUrl = `/api/images/covers/${result.id}`;

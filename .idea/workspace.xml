@@ -4,13 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update bug">
-      <change afterPath="$PROJECT_DIR$/src/controller/favorite-controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/favorite-service.js" afterDir="false" />
+    <list default="true" id="c7f40048-6ef8-498f-9b06-3d15819522a1" name="Changes" comment="update fitur other">
+      <change afterPath="$PROJECT_DIR$/src/controller/other-barcode-controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/other-controller.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/other-service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/validation/other-validation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/barcode-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/barcode-controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/auth-middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/auth-middleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/route/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/route/public-api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/route/public-api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/destination-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/destination-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validation/destination-validation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/validation/destination-validation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +137,45 @@
       <workItem from="1747727055563" duration="1818000" />
       <workItem from="1747735997503" duration="1182000" />
       <workItem from="1747787761238" duration="3638000" />
-      <workItem from="1748028645986" duration="1842000" />
+      <workItem from="1748028645986" duration="4989000" />
+      <workItem from="1748176531749" duration="1286000" />
+      <workItem from="1748264202794" duration="2476000" />
+      <workItem from="1748326246671" duration="3574000" />
+      <workItem from="1748702588278" duration="2100000" />
+      <workItem from="1748765892702" duration="2708000" />
+      <workItem from="1748836433161" duration="602000" />
+      <workItem from="1748867295960" duration="2609000" />
+      <workItem from="1748935360047" duration="815000" />
+      <workItem from="1749030183689" duration="728000" />
+      <workItem from="1749285996410" duration="1195000" />
+      <workItem from="1749521701551" duration="1197000" />
+      <workItem from="1749549527893" duration="687000" />
+      <workItem from="1749554063455" duration="1857000" />
+      <workItem from="1751007052941" duration="639000" />
+      <workItem from="1751372504338" duration="28000" />
+      <workItem from="1752135210840" duration="624000" />
+      <workItem from="1752544558186" duration="595000" />
+      <workItem from="1752995978514" duration="1080000" />
+      <workItem from="1752997459690" duration="108000" />
+      <workItem from="1752998388461" duration="1245000" />
+      <workItem from="1753103944899" duration="1009000" />
+      <workItem from="1754182156870" duration="2342000" />
+      <workItem from="1754305859600" duration="2210000" />
+      <workItem from="1754401557615" duration="4370000" />
+      <workItem from="1754474505163" duration="618000" />
+      <workItem from="1754725102586" duration="24000" />
+      <workItem from="1755521444174" duration="7866000" />
+      <workItem from="1755577039075" duration="6319000" />
+      <workItem from="1755605640233" duration="2658000" />
+      <workItem from="1755656164287" duration="332000" />
+      <workItem from="1755739119659" duration="1191000" />
+      <workItem from="1756103625200" duration="3570000" />
+      <workItem from="1756175867444" duration="2248000" />
+      <workItem from="1756233558152" duration="523000" />
+      <workItem from="1756264261510" duration="1816000" />
+      <workItem from="1756342783724" duration="1863000" />
+      <workItem from="1756350448448" duration="1204000" />
+      <workItem from="1756363718034" duration="9217000" />
     </task>
     <task id="LOCAL-00001" summary="firts push">
       <option name="closed" value="true" />
@@ -203,7 +249,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747556978079</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update bug">
+      <option name="closed" value="true" />
+      <created>1748031544482</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748031544482</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +270,7 @@
     <MESSAGE value="update fitur delete" />
     <MESSAGE value="update fitur" />
     <MESSAGE value="update bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="update bug" />
+    <MESSAGE value="update fitur other" />
+    <option name="LAST_COMMIT_MESSAGE" value="update fitur other" />
   </component>
 </project>

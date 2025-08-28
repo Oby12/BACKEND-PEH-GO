@@ -48,6 +48,7 @@ model Destination {
   address             String                @db.VarChar(150)
   description         String                @db.Text
   urlLocation         String                @db.VarChar(200)
+  youtubeUrl          String?               @db.VarChar(200) // Field baru untuk YouTube video (opsional)
   categoryId          Int
   Category            Category              @relation(fields: [categoryId], references: [id])
   picture             Picture[]
@@ -98,4 +99,16 @@ model UserLogin {
   User    User     @relation(fields: [userId], references: [username])
 
   @@map("user_logins")
+}
+
+model Other {
+  id        Int      @id @default(autoincrement())
+  cover     Bytes    @db.MediumBlob
+  name      String   @db.VarChar(150)
+  category  String   @db.VarChar(100)
+  story     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("others")
 }
